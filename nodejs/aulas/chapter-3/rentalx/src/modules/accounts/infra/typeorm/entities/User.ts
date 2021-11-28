@@ -32,8 +32,6 @@ class User {
     name: "avatar_url",
   })
   avatar_url(): string {
-    console.log(process.env.disk);
-
     switch (process.env.disk) {
       case "local":
         return `${process.env.APP_API_URL}/files/${this.avatar}`;
