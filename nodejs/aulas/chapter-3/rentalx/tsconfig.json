@@ -4,6 +4,8 @@
     "module": "commonjs",
     "resolveJsonModule": true,
 
+    "outDir": "./dist",
+
     "baseUrl": "./src",
     "paths": {
       "@modules/*": ["modules/*"],
