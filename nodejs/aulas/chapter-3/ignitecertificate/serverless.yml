@@ -9,9 +9,14 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+    packager: 'yarn'
+    packagerOptions:
+      noFrozenLockfile: true
 
 provider:
   name: aws
+  runtime: nodejs14.x
+  region: sa-east-1
 
 functions:
   hello:
