@@ -1,18 +1,15 @@
 service:
-  name: ignitecertificate
+  name: "ignitecertificate"
 
 plugins:
-  - serverless-offline
   - serverless-webpack
+  - serverless-offline
   - serverless-dynamodb-local
 
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-    packager: 'yarn'
-    packagerOptions:
-      noFrozenLockfile: true
   dynamodb:
     stages:
       - dev
@@ -21,11 +18,21 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
+  bucket: ignitecertificate-lucasferraricorrea-2
 
 provider:
   name: aws
-  runtime: nodejs14.x
   region: sa-east-1
+  runtime: nodejs14.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
 
 functions:
   generateCertificate:
@@ -35,17 +42,34 @@ functions:
           path: /generateCertificate
           method: POST
           cors: true
-
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/users_certificates"
+  verifyCertificate:
+    handler: src/functions/verifyCertificate.handle
+    events:
+      - http:
+          path: /verifyCertificate/{id}
+          method: GET
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/users_certificates"
 
 resources:
   Resources:
     dbCertificateUsers:
       Type: AWS::DynamoDB::Table
       Properties:
+        TableName: users_certificates
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        TableName: users_certificates
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
