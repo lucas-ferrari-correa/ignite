@@ -5,14 +5,14 @@ import {
   StyleSheet
 } from 'react-native';
 
-export function SkillCard() {
+export function SkillCard({ skill, index }) {
   return (
     <TouchableOpacity 
-      //key={mySkills.indexOf(skill)}
+      key={index}
       key="1"
       style={styles.buttonSkill}>
       <Text style={styles.textSkill}>
-        skill
+        {skill}
       </Text>
     </TouchableOpacity>
   )
