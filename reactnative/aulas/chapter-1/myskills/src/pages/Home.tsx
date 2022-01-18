@@ -11,12 +11,30 @@ import {
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
 
+interface ISkillData {
+  id: string,
+  name: string
+}
+
 export default function Home() {
-  const [newSkill, setNewSkill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
+  const [newSkill, setNewSkill] = useState<string>('');
+  const [mySkills, setMySkills] = useState<ISkillData[]>([]);
 
   function handleAddNewSkill() {
-    setMySkills(oldState => [...oldState, newSkill]);
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    };
+
+    setMySkills(oldState => [...oldState, data]);
+  }
+
+  function handleRemoveSkill(skillId: string) {
+    setMySkills(oldState => 
+      oldState.filter(skill => {
+        skill.id !== skillId
+      })
+    )
   }
 
   return (
@@ -32,7 +50,11 @@ export default function Home() {
         onChangeText={setNewSkill}
       />
 
-      <Button onPress={handleAddNewSkill} />
+      <Button 
+        onPress={handleAddNewSkill} 
+        activeOpacity={0.7} 
+        title='Add'
+      />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>
         My Skills
@@ -40,9 +62,12 @@ export default function Home() {
 
       <FlatList 
         data={mySkills}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <SkillCard skill={item} index={item} />
+          <SkillCard 
+            skill={item.name} 
+            onPress={() => handleRemoveSkill(item.id)}
+          />
         )}
       />
     </SafeAreaView>
@@ -53,7 +78,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121015',
-    paddingHorizontal: 20,
     paddingVertical: 70,
     paddingHorizontal: 30
   },
