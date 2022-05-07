@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import { Button } from '../../components/Form/Button';
+import { SelectButton } from '../../components/Form/SelectButton';
 
 import { categories } from '../../utils/categories';
 
@@ -64,8 +65,8 @@ export function CategorySelect({
       />
 
       <Footer>
-        <Button 
-          title='Selecionar' 
+        <SelectButton 
+          title='Selecionar'
           onPress={closeSelectCategory}
         />
       </Footer>
