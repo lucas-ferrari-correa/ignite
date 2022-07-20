@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-gesture-handler';
 import * as SplashScreen from 'expo-splash-screen';
 import { ThemeProvider } from 'styled-components';
 
@@ -13,8 +14,11 @@ import {
   Archivo_600SemiBold,
 } from '@expo-google-fonts/archivo';
 
-import { Home } from './src/screens/Home';
 import theme from './src/styles/theme';
+
+import { Home } from './src/screens/Home';
+import { CarDetails } from './src/screens/CarDetails';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -33,8 +37,10 @@ export default function App() {
   SplashScreen.hideAsync();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <CarDetails />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
