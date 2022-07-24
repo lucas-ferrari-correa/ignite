@@ -1,4 +1,7 @@
 import React from 'react';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { Feather } from '@expo/vector-icons';
+import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 
 import { BackButton } from '../../components/BackButton';
@@ -25,16 +28,26 @@ import {
   Rent,
   Period,
   Price,
-  About,
   Accessories,
   Footer,
+  RentalPeriod,
+  CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RentalPrice,
+  RentalPriceLabel,
+  RentalPriceDetails,
+  RentalPriceQuotes,
+  RentalPriceTotal,
 } from './styles';
 
-export function CarDetails() {
+export function SchedulingDetails() {
   const navigation = useNavigation<any>();
+  const theme = useTheme();
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('SchedulingComplete');
   }
 
   return (
@@ -69,14 +82,45 @@ export function CarDetails() {
           <Accessory name="2 pessoas" icon={PeopleSvg} />
         </Accessories>
 
-        <About>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tincidunt ornare massa eget egestas purus viverra accumsan in. Aliquam id diam maecenas ultricies.
-        </About>
+        <RentalPeriod>
+          <CalendarIcon>
+            <Feather 
+              name='calendar'
+              size={RFValue(24)}
+              color={theme.colors.shape}
+            />
+          </CalendarIcon>
+
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>18/06/2021</DateValue>
+          </DateInfo>
+
+          <Feather 
+            name='chevron-right'
+            size={RFValue(10)}
+            color={theme.colors.text}
+          />
+
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>18/06/2021</DateValue>
+          </DateInfo>
+        </RentalPeriod>
+
+        <RentalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RentalPriceDetails>
+            <RentalPriceQuotes>R$ 500 x3 diárias</RentalPriceQuotes>
+            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+          </RentalPriceDetails>
+        </RentalPrice>
       </Content>
 
       <Footer>
         <Button 
-          title='Escolher período do aluguel' 
+          title='Alugar agora' 
+          color={theme.colors.success}
           onPress={handleConfirmRental}
         />
       </Footer>
