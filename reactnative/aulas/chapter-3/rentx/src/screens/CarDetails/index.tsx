@@ -6,13 +6,6 @@ import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 
-import SpeedSvg from '../../assets/speed.svg';
-import AccelerationSvg from '../../assets/acceleration.svg';
-import ForceSvg from '../../assets/force.svg';
-import GasolineSvg from '../../assets/gasoline.svg';
-import ExchangeSvg from '../../assets/exchange.svg';
-import PeopleSvg from '../../assets/people.svg';
-
 import {
   Container,
   Header,
@@ -30,6 +23,7 @@ import {
   Footer,
 } from './styles';
 import { CarDTO } from '../../dtos/CarDTO';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
 interface Params {
   car: CarDTO;
@@ -41,7 +35,9 @@ export function CarDetails() {
   const { car } = route.params as Params;
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('Scheduling', {
+      car: car
+    });
   }
 
   function handleBack() {
@@ -79,7 +75,7 @@ export function CarDetails() {
               <Accessory
                 key={accessory.type}
                 name={accessory.name} 
-                icon={PeopleSvg} 
+                icon={getAccessoryIcon(accessory.type)} 
               />
             ))
           }

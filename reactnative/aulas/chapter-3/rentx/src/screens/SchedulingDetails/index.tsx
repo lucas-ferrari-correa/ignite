@@ -46,6 +46,10 @@ export function SchedulingDetails() {
   const navigation = useNavigation<any>();
   const theme = useTheme();
 
+  function handleBack() {
+    navigation.goBack();
+  }
+
   function handleConfirmRental() {
     navigation.navigate('SchedulingComplete');
   }
@@ -53,7 +57,7 @@ export function SchedulingDetails() {
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={handleBack} />
       </Header>
 
       <CarImages>
